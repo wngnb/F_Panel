@@ -45,7 +45,7 @@
 --------------------------------------------------------------------
 */
 char* cmd_system(char* command);
-char buff[1024];
+char buff[58289];
 int code = 0;
 //声明函数
 void Readme(void);
@@ -663,15 +663,15 @@ void Install_FAS(char* IP, char* Installation_type) {
 	if (strcmp(Download_Host_Select,"1")==0){
 		//资源1地址
 		printf("你已选择 1、GitHub\n");
-		strcpy(Download_Host,"https://raw.githubusercontent.com/Shirley-Jones/FAS-Panel/master/Source");
+		strcpy(Download_Host,"https://raw.githubusercontent.com/wngnb/F_Panel/main/FAS-Panel-main/Source");
 	}else if (strcmp(Download_Host_Select,"2")==0){
 		//资源2地址
 		printf("你已选择 2、私有源\n");
-		strcpy(Download_Host,"#");
+		strcpy(Download_Host,"http://wng.ddns.net:9999/Source");
 	}else{
 		//默认资源地址
 		printf("输入无效，系统自动选择 1、GitHub\n");
-		strcpy(Download_Host,"https://raw.githubusercontent.com/Shirley-Jones/FAS-Panel/master/Source");
+		strcpy(Download_Host,"https://raw.githubusercontent.com/wngnb/F_Panel/main/FAS-Panel-main/Source");
 	}
 	
     printf("\n所需的信息收集完成，即将安装...\n");
@@ -732,8 +732,8 @@ void Install_FAS(char* IP, char* Installation_type) {
 		checkcode(runshell(5,"setenforce 0 >/dev/null 2>&1"));
         checkcode(runshell(1,"httpd httpd-tools"));
 		checkcode(runshell(1,"--enablerepo=remi --enablerepo=remi-php70 php php-mbstring php-gd php-mysql php-pear php-pear-DB php-cli php-common php-ldap php-odbc php-xmlrpc"));
-		checkcode(runshell(5,"sed -i \"s/#ServerName www.example.com:80/ServerName localhost:1024/g\" /etc/httpd/conf/httpd.conf"));
-		checkcode(runshell(5,"sed -i \"s/Listen 80/Listen 1024/g\" /etc/httpd/conf/httpd.conf"));
+		checkcode(runshell(5,"sed -i \"s/#ServerName www.example.com:80/ServerName localhost:58289/g\" /etc/httpd/conf/httpd.conf"));
+		checkcode(runshell(5,"sed -i \"s/Listen 80/Listen 58289/g\" /etc/httpd/conf/httpd.conf"));
 		checkcode(runshell(5,"sed -i \"s/ServerTokens OS/ServerTokens Prod/g\" /etc/httpd/conf/httpd.conf"));
 		checkcode(runshell(5,"sed -i \"s/ServerSignature On/ServerSignature Off/g\" /etc/httpd/conf/httpd.conf"));
 		checkcode(runshell(5,"sed -i \"s/Options Indexes MultiViews FollowSymLinks/Options MultiViews FollowSymLinks/g\" /etc/httpd/conf/httpd.conf"));
@@ -794,7 +794,7 @@ void Install_FAS(char* IP, char* Installation_type) {
 		checkcode(runshell(5,"iptables -A INPUT -p tcp -m tcp --dport 3306 -j ACCEPT"));
 		checkcode(runshell(5,"iptables -A INPUT -p tcp -m tcp --dport 138 -j ACCEPT"));
 		checkcode(runshell(5,"iptables -A INPUT -p tcp -m tcp --dport 137 -j ACCEPT"));
-		checkcode(runshell(5,"iptables -A INPUT -p tcp -m tcp --dport 1024 -j ACCEPT"));
+		checkcode(runshell(5,"iptables -A INPUT -p tcp -m tcp --dport 58289 -j ACCEPT"));
 		checkcode(runshell(5,"iptables -A INPUT -p udp -m udp --dport 137 -j ACCEPT"));
 		checkcode(runshell(5,"iptables -A INPUT -p udp -m udp --dport 138 -j ACCEPT"));
 		checkcode(runshell(5,"iptables -A INPUT -p udp -m udp --dport 53 -j ACCEPT"));
@@ -813,11 +813,11 @@ void Install_FAS(char* IP, char* Installation_type) {
 		checkcode(runshell(5,"iptables -t nat -A PREROUTING --dst 10.11.0.1 -p udp --dport 53 -j DNAT --to-destination 10.11.0.1:5353"));
 		checkcode(runshell(5,"iptables -t nat -A PREROUTING --dst 10.12.0.1 -p udp --dport 53 -j DNAT --to-destination 10.12.0.1:5353"));
 		//checkcode(runshell(5,"iptables -P INPUT DROP"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o eth0 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.11.0.0/24 -o eth0 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o eth0 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.8.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.9.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.11.0.0/24 -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
 		//checkcode(runshell(5,"iptables -t nat -A POSTROUTING -j MASQUERADE"));
 		checkcode(runshell(5,"service iptables save >/dev/null 2>&1"));
 		checkcode(runshell(5,"systemctl restart iptables.service"));
@@ -967,7 +967,7 @@ void Install_FAS(char* IP, char* Installation_type) {
 			sprintf(Edit_FAS_Panel,"sed -i \"s/远程数据库地址/\"%s\"/g\" /var/www/html/config.php\nsed -i \"s/远程数据库端口/\"%s\"/g\" /var/www/html/config.php\nsed -i \"s/远程数据库账户/\"%s\"/g\" /var/www/html/config.php\nsed -i \"s/远程数据库密码/\"%s\"/g\" /var/www/html/config.php",FAS_MySQL_Host,FAS_MySQL_Port,FAS_MySQL_User,FAS_MySQL_Pass);
 			checkcode(runshell(5,Edit_FAS_Panel));
 			char Import_Database[100];
-			sprintf(Import_Database,"sed -i \"s/服务器IP/\"%s\"/g\" /var/www/html/vpndata.sql\nsed -i \"s/端口/\"1024\"/g\" /var/www/html/vpndata.sql\nmysql -h%s -P%s -u%s -p%s vpndata < /var/www/html/vpndata.sql\nrm -rf /var/www/html/vpndata.sql",IP,FAS_MySQL_Host,FAS_MySQL_Port,FAS_MySQL_User,FAS_MySQL_Pass);
+			sprintf(Import_Database,"sed -i \"s/服务器IP/\"%s\"/g\" /var/www/html/vpndata.sql\nsed -i \"s/端口/\"58289\"/g\" /var/www/html/vpndata.sql\nmysql -h%s -P%s -u%s -p%s vpndata < /var/www/html/vpndata.sql\nrm -rf /var/www/html/vpndata.sql",IP,FAS_MySQL_Host,FAS_MySQL_Port,FAS_MySQL_User,FAS_MySQL_Pass);
 			checkcode(runshell(5,Import_Database));
 			char Download_MySQL_Panel[100];
 			sprintf(Download_MySQL_Panel,"wget --no-check-certificate -O /var/www/html/MySQL_Panel.zip %s/MySQL_Panel.zip >/dev/null 2>&1",Download_Host);
@@ -1037,14 +1037,14 @@ void Install_FAS(char* IP, char* Installation_type) {
 		
 		//修改旧APP
 		char Edit_old_App_Info[100];
-		sprintf(Edit_old_App_Info,"sed -i 's/demo.dingd.cn:80/'%s:1024'/g' `grep demo.dingd.cn:80 -rl /FAS/app/old_app/smali/net/openvpn/openvpn/` \nsed -i 's/叮咚流量卫士/'%s'/g' \"/FAS/app/old_app/res/values/strings.xml\"",IP,FAS_APP_Name);
+		sprintf(Edit_old_App_Info,"sed -i 's/demo.dingd.cn:80/'%s:58289'/g' `grep demo.dingd.cn:80 -rl /FAS/app/old_app/smali/net/openvpn/openvpn/` \nsed -i 's/叮咚流量卫士/'%s'/g' \"/FAS/app/old_app/res/values/strings.xml\"",IP,FAS_APP_Name);
 		setbuf(stdout,NULL);
 		system(Edit_old_App_Info);
 		
 		
 		//修改新APP
 		char Edit_new_App_Info[100];
-		sprintf(Edit_new_App_Info,"sed -i 's/demo.dingd.cn:80/'%s:1024'/g' \"/FAS/app/new_app/res/values/strings.xml\"\nsed -i 's/叮咚流量卫士/'%s'/g' \"/FAS/app/new_app/res/values/strings.xml\"",IP,FAS_APP_Name);
+		sprintf(Edit_new_App_Info,"sed -i 's/demo.dingd.cn:80/'%s:58289'/g' \"/FAS/app/new_app/res/values/strings.xml\"\nsed -i 's/叮咚流量卫士/'%s'/g' \"/FAS/app/new_app/res/values/strings.xml\"",IP,FAS_APP_Name);
 		setbuf(stdout,NULL);
 		system(Edit_new_App_Info);
 		
@@ -1113,17 +1113,17 @@ void Install_FAS(char* IP, char* Installation_type) {
 	printf("恭喜，您已经成功安装%s。\n",FAS_Name);
 	if (strcmp(Installation_type,"One")==0){
 		//完整安装
-		printf("后台面板: http://%s:1024/admin/ \n",IP);
+		printf("后台面板: http://%s:58289/admin/ \n",IP);
 		printf("账户: admin  密码: admin  本地密码: %s\n",LocalPass);
-		printf("代理面板: http://%s:1024/daili \n",IP);
+		printf("代理面板: http://%s:58289/daili \n",IP);
 		printf("---------------------------------------------\n");
-		printf("数据库面板: http://%s:1024/phpMyAdmin/ \n",IP);
+		printf("数据库面板: http://%s:58289/phpMyAdmin/ \n",IP);
 		printf("数据库地址: %s   数据库端口: %s\n",FAS_MySQL_Host,FAS_MySQL_Port);
 		printf("数据库账户: %s   数据库密码: %s\n",FAS_MySQL_User,FAS_MySQL_Pass);
 		printf("---------------------------------------------\n");
 		printf("APP下载: \n");
-		printf("旧版APP下载(Android4+): http://%s:1024/old_app_sign.apk \n",IP);
-		printf("新版APP下载(Android8+): http://%s:1024/new_app_sign.apk \n",IP);
+		printf("旧版APP下载(Android4+): http://%s:58289/old_app_sign.apk \n",IP);
+		printf("新版APP下载(Android8+): http://%s:58289/new_app_sign.apk \n",IP);
 		printf("当前主机版本已经开放数据库远程访问权限，无需再次开启！\n");
     }else if (strcmp(Installation_type,"Two")==0){
 		//节点安装
