@@ -12,38 +12,9 @@
 #include <curl/curl.h>
 #define Start_Check_Scripts "./fast.bin"
 #define FAS_Version "3.0"
-#define Dingd_Name "筑梦工作室 冬瓜"
+#define Dingd_Name "WNG"
 #define FAS_Name "FAS网络用户管理"  
 #define Scripts_Time "2025.01.06 00:00:00"  
-/*
---------------------------------------------------------------------
-
-	版权说明: 
-	
-	流控版权为筑梦网络科技(筑梦工作室)所有！！
-	
-	FAS流控官网: https://www.dingd.cn 已下线
-	
---------------------------------------------------------------------
-
-	脚本说明: 
-	
-	项目开源地址: https://github.com/Shirley-Jones/FAS-Panel
-	
-	所有YUM源使用阿里云 
-	
---------------------------------------------------------------------
-
-	下载地址说明: 
-	
-	请搜索 raw.githubusercontent.com 您可以快速定位到该位置。
-	
-	下载地址末尾不加斜杆，否则搭建会报错
-	
-	任何问题不要问我，不要问我，不要问我。
-	
---------------------------------------------------------------------
-*/
 char* cmd_system(char* command);
 char buff[58289];
 int code = 0;
@@ -411,7 +382,7 @@ void Readme()
 	printf("                  欢迎使用%s系统                   \n",FAS_Name);
 	printf("                          版本 V%s                      \n",FAS_Version);
 	printf("流控作者: %s \n",Dingd_Name);
-	printf("FAS流控官网: https://www.dingd.cn \n");
+	printf("FAS流控: https://github.com/wngnb \n");
 	printf("\n");
 	printf("免责声明：\n");
 	printf("本脚本仅用于学习交流，禁止商业，下载安装后请在24小时内删除！\n");
@@ -489,7 +460,7 @@ void Install_FAS(char* IP, char* Installation_type) {
             fgets(FAS_APP_Name, sizeof(FAS_APP_Name), stdin);
             FAS_APP_Name[strcspn(FAS_APP_Name, "\n")] = 0; // 移除换行符
             if (strcmp(FAS_APP_Name, "") == 0) {
-                strcpy(FAS_APP_Name, "流量卫士");
+                strcpy(FAS_APP_Name, "Stu_WIFI");
                 printf("已设置APP名称为: %s\n", FAS_APP_Name);
                 break;
             } else {
@@ -632,7 +603,7 @@ void Install_FAS(char* IP, char* Installation_type) {
     printf("\n-----------流量监控选择-----------\n");
     printf("\n因FAS官方流量监控没有开源,所以Shirley基于FAS流控开发的新版流量监控");
     printf("\n兼容FAS原版配置文件,完美适配FAS流控,并且它是开源项目,您可以安心使用.\n");
-    printf("项目地址: https://github.com/Shirley-Jones/Shirley-FAS-AUTH\n");
+    printf("项目地址: https://github.com/wngnb\n");
     printf("\n请选择流量监控版本:\n");
     printf("1、Shirley's 流量监控 (推荐)\n");
     printf("2、FAS官方 流量监控\n");
@@ -667,7 +638,7 @@ void Install_FAS(char* IP, char* Installation_type) {
 	}else if (strcmp(Download_Host_Select,"2")==0){
 		//资源2地址
 		printf("你已选择 2、私有源\n");
-		strcpy(Download_Host,"http://wng.ddns.net:9999/Source");
+		strcpy(Download_Host,"http://wng.ddns.net:59595/Source");
 	}else{
 		//默认资源地址
 		printf("输入无效，系统自动选择 1、GitHub\n");
@@ -813,11 +784,24 @@ void Install_FAS(char* IP, char* Installation_type) {
 		checkcode(runshell(5,"iptables -t nat -A PREROUTING --dst 10.11.0.1 -p udp --dport 53 -j DNAT --to-destination 10.11.0.1:5353"));
 		checkcode(runshell(5,"iptables -t nat -A PREROUTING --dst 10.12.0.1 -p udp --dport 53 -j DNAT --to-destination 10.12.0.1:5353"));
 		//checkcode(runshell(5,"iptables -P INPUT DROP"));
+		// ens33
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o ens33 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o ens33 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o ens33 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.11.0.0/24 -o ens33 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o ens33 -j MASQUERADE"));
+		// eth0
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o eth0 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o eth0 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.11.0.0/24 -o eth0 -j MASQUERADE"));
+		// checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o eth0 -j MASQUERADE"));
 		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.8.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
 		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.9.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.10.0.0/24 -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.11.0.0/24 -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
-		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.10.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.11.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		checkcode(runshell(5,"iptables -t nat -A POSTROUTING -s 10.12.0.0/24  -o wlp1s0 ! -d 192.168.110.0/24 -j MASQUERADE"));
+		
 		//checkcode(runshell(5,"iptables -t nat -A POSTROUTING -j MASQUERADE"));
 		checkcode(runshell(5,"service iptables save >/dev/null 2>&1"));
 		checkcode(runshell(5,"systemctl restart iptables.service"));
@@ -1113,8 +1097,8 @@ void Install_FAS(char* IP, char* Installation_type) {
 	printf("恭喜，您已经成功安装%s。\n",FAS_Name);
 	if (strcmp(Installation_type,"One")==0){
 		//完整安装
-		printf("后台面板: http://%s:58289/admin/ \n",IP);
-		printf("账户: admin  密码: admin  本地密码: %s\n",LocalPass);
+		printf("后台面板: http://%s:58289/hknb/ \n",IP);
+		printf("账户: wngnb  密码: wngnb@0609@gmail.com  本地密码: %s\n",LocalPass);
 		printf("代理面板: http://%s:58289/daili \n",IP);
 		printf("---------------------------------------------\n");
 		printf("数据库面板: http://%s:58289/phpMyAdmin/ \n",IP);
@@ -1175,7 +1159,7 @@ void Uninstall_FAS()
 	printf("\n开始卸载(使用System Shell方式卸载)....\n");
 	sleep(3);
 	setbuf(stdout,NULL);
-	system("systemctl start firewalld.servic");
+	system("systemctl start firewalld.service");
 	setbuf(stdout,NULL);
 	system("systemctl enable firewalld.service");
 	setbuf(stdout,NULL);
@@ -1261,11 +1245,11 @@ void Uninstall_FAS()
 	setbuf(stdout,NULL);
 	system("rm -rf /var/lib64/mysql");
 	setbuf(stdout,NULL);
-	system("yum -y remove epel-release");
+	// system("yum -y remove epel-release");
 	setbuf(stdout,NULL);
-	system("yum -y remove telnet avahi openssl openssl-libs openssl-devel lzo lzo-devel pam pam-devel automake pkgconfig gawk tar zip unzip net-tools psmisc gcc pkcs11-helper libxml2 libxml2-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel");
+	system("yum -y remove telnet avahi openssl openssl-libs openssl-devel lzo lzo-devel pam pam-devel automake pkgconfig gawk psmisc gcc pkcs11-helper libxml2 libxml2-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel");
 	setbuf(stdout,NULL);
-	system("yum -y remove docker iptables iptables-services httpd dnsmasq java ");
+	system("yum -y remove docker httpd dnsmasq java ");
 	setbuf(stdout,NULL);
 	system("rpm -e –nodeps liblz4-1.8.1.2-alt1.x86_64");
 	setbuf(stdout,NULL);
@@ -1560,6 +1544,13 @@ int main(int argc, char *argv[])  //main 起始变量名  不可修改
 		exit(0);
     }
 }
+//卸载
+// int main(int argc, char *argv[])
+// {
+//     // 直接调用卸载函数
+//     Uninstall_FAS();
+//     return 0;
+// }
 
 char* cmd_system(char* command)
 {
